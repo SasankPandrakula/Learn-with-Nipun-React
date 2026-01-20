@@ -1,0 +1,79 @@
+/* Background container */
+.auth-container {
+  min-height: 100vh;
+  background: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* White card */
+.auth-card {
+  background: white;
+  width: 300px;
+  padding: 28px 24px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+/* Logo */
+.auth-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  padding: 3px;
+  background: linear-gradient(to right, #0b4da2, #18b3a4);
+  margin-bottom: 10px;
+}
+
+/* Heading */
+.auth-card h2 {
+  color: #0b4da2;
+  margin-bottom: 18px;
+}
+
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  outline: none;
+}
+
+/* Buttons */
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 25px;
+  border: none;
+  background: linear-gradient(to right, #0b4da2, #18b3a4);
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+/* OR text */
+.auth-card p {
+  margin: 16px 0 10px;
+  font-weight: 500;
+}
+/* Google button wrapper */
+.google-btn { 
+  display: flex;  
+  justify-content: center; 
+  margin-bottom: 12px; 
+}
+
+/* Login text */
+.auth-card span {
+  color: #f4a100;
+  cursor: pointer;
+  font-weight: 600;
+}

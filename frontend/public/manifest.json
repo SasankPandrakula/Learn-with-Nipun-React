@@ -1,0 +1,20 @@
+{
+  "short_name": "LearnWithNipun",
+  "name": "Learn With Nipun",
+  "icons": [
+    {
+      "src": "icon-logo.png",
+      "type": "image/png",
+      "sizes": "131x143"
+    },
+    {
+      "src": "Logo.png",
+      "type": "image/png",
+      "sizes": "1024x1024"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
