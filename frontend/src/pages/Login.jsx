@@ -11,7 +11,7 @@ const Login = () => {
 
   const sendOtp = async () => {
     try {
-      await axios.post("http://localhost:5000/api/auth/send-otp", {
+      await axios.post("https://learn-with-nipun-react-1.onrender.com/api/auth/send-otp", {
         email,
       });
       alert("OTP sent");
@@ -24,7 +24,7 @@ const Login = () => {
 
   const verifyOtp = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/verify-otp", {
+      const res = await axios.post("https://learn-with-nipun-react-1.onrender.com/api/auth/verify-otp", {
         email,
         otp,
       });

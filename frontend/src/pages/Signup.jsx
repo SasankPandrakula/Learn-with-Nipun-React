@@ -13,7 +13,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/signup",
+        "https://learn-with-nipun-react-1.onrender.com/api/auth/signup",
         form,
         {
           headers: { "Content-Type": "application/json" },
@@ -32,7 +32,7 @@ const Signup = () => {
   const handleGoogleSuccess = async (credentialResponse) => {
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/google",
+        "https://learn-with-nipun-react-1.onrender.com/api/auth/google",
         {
           token: credentialResponse.credential,
         },
