@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 
+const API_BASE_URL = "https://learn-with-nipun-react-1.onrender.com/api/auth";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
@@ -11,7 +13,7 @@ const Login = () => {
 
   const sendOtp = async () => {
     try {
-      await axios.post("https://learn-with-nipun-react-1.onrender.com/api/auth/send-otp", {
+      await axios.post(`${API_BASE_URL}/send-otp`, {
         email,
       });
       alert("OTP sent");
@@ -24,7 +26,7 @@ const Login = () => {
 
   const verifyOtp = async () => {
     try {
-      const res = await axios.post("https://learn-with-nipun-react-1.onrender.com/api/auth/verify-otp", {
+      const res = await axios.post(`${API_BASE_URL}/verify-otp`, {
         email,
         otp,
       });

@@ -86,13 +86,34 @@ exports.sendOtp = async (req, res) => {
     user.otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes
     await user.save();
 
-    console.log("OTP:", otp); // 🔥 DEBUG
-    // You can send email via nodemailer here
+    console.log("OTP generated:", otp); // 🔥 DEBUG
 
-    res.json({ message: "OTP sent" });
+    try {
+      // Send OTP via email
+      await sendEmail(
+        email,
+        "Your OTP for Login",
+        `
+          <h3>Email Verification OTP</h3>
+          <p>Your OTP is: <strong>${otp}</strong></p>
+          <p>This OTP will expire in 5 minutes.</p>
+          <p>Do not share this OTP with anyone.</p>
+        `
+      );
+      console.log(`✅ OTP email sent to ${email}`);
+      res.json({ message: "OTP sent to your email" });
+    } catch (emailError) {
+      console.error(`❌ Email sending failed for ${email}:`, emailError.message);
+      // Still return success but log the error
+      res.status(500).json({ 
+        message: "OTP generated but failed to send email",
+        error: emailError.message,
+        otp: otp // Debug: Return OTP for testing
+      });
+    }
   } catch (err) {
     console.error("Send OTP error:", err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Failed to send OTP", error: err.message });
   }
 };
 
@@ -131,7 +152,10 @@ exports.googleLogin = async (req, res) => {
       audience: process.env.GOOGLE_CLIENT_ID,
     });
 
-    const { name, email, sub, picture } = ticket.getPayload();
+    const payload = ticket.getPayload();
+    const { name, email, sub, picture } = payload;
+
+    if (!email) return res.status(400).json({ msg: "Email not found in token" });
 
     let user = await User.findOne({ email });
     if (!user) {
@@ -142,13 +166,30 @@ exports.googleLogin = async (req, res) => {
         isVerified: true,
         googleId: sub,
       });
+      console.log("New user created:", email);
     }
 
     const jwtToken = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "7d" });
 
-    res.json({ token: jwtToken, user });
+    res.json({ 
+      token: jwtToken, 
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar
+      }
+    });
   } catch (err) {
-    console.error("Google login error:", err);
-    res.status(401).json({ msg: "Google authentication failed" });
+    console.error("Google login error:", err.message);
+    
+    if (err.message && err.message.includes("Token used too late")) {
+      return res.status(401).json({ msg: "Token expired. Please try again." });
+    }
+    if (err.message && err.message.includes("Invalid token")) {
+      return res.status(401).json({ msg: "Invalid token. Please try again." });
+    }
+    
+    res.status(401).json({ msg: "Google authentication failed", error: err.message });
   }
 };

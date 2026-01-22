@@ -6,8 +6,9 @@ const userSchema = new mongoose.Schema({
   phone: String,
   isVerified: { type: Boolean, default: false },
   otp: String,
-  otpExpiry: Date,
-  googleId: String
+  otpExpires: Date,
+  googleId: String,
+  avatar: String
 });
 
 module.exports = mongoose.model("User", userSchema);
