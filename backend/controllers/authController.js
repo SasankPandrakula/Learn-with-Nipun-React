@@ -34,10 +34,20 @@ exports.signup = async (req, res) => {
     sendEmail(email, "Verify your email", `
       <h3>Email Verification</h3>
       <a href="${link}">Click here to verify your email</a>
-    `).catch(err => {
-      console.error("Failed to send verification email:", err);
-      // Optionally: log to database or external service
-    });
+    `)
+      .then(() => {
+        console.log(`✅ Verification email sent successfully to ${email}`);
+        User.findOneAndUpdate({ email }, { verificationEmailSent: true });
+      })
+      .catch(async (err) => {
+        console.error(`❌ Failed to send verification email to ${email}:`, err.message);
+        console.error("Full error:", err);
+        // Log error to database
+        await User.findOneAndUpdate(
+          { email },
+          { verificationEmailError: err.message }
+        ).catch(dbErr => console.error("DB update error:", dbErr));
+      });
 
   } catch (err) {
     console.error("Signup error:", err);

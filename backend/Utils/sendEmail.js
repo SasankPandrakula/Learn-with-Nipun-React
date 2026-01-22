@@ -1,5 +1,11 @@
 const nodemailer = require("nodemailer");
 
+console.log("📧 Email config:", {
+  service: "gmail",
+  user: process.env.EMAIL_USER ? "configured ✅" : "missing ❌",
+  pass: process.env.EMAIL_PASS ? "configured ✅" : "missing ❌"
+});
+
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
@@ -19,6 +25,7 @@ transporter.verify((error, success) => {
 
 const sendEmail = async (to, subject, html) => {
   try {
+    console.log(`📤 Attempting to send email to ${to}...`);
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to,

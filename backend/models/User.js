@@ -8,7 +8,9 @@ const userSchema = new mongoose.Schema({
   otp: String,
   otpExpires: Date,
   googleId: String,
-  avatar: String
+  avatar: String,
+  verificationEmailSent: { type: Boolean, default: false },
+  verificationEmailError: String
 });
 
 module.exports = mongoose.model("User", userSchema);
