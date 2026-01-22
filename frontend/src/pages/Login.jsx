@@ -16,7 +16,7 @@ const Login = () => {
       await axios.post(`${API_BASE_URL}/send-otp`, {
         email,
       }, {
-        timeout: 30000 // 30 second timeout for cold start
+        timeout: 60000 // 60 second timeout for backend cold start
       });
       alert("OTP sent");
       setStep(2); // ✅ move to OTP screen
@@ -32,7 +32,7 @@ const Login = () => {
         email,
         otp,
       }, {
-        timeout: 30000 // 30 second timeout for cold start
+        timeout: 60000 // 60 second timeout for backend cold start
       });
       localStorage.setItem("token", res.data.token);
       navigate("/home");
