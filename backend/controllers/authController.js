@@ -27,13 +27,18 @@ exports.signup = async (req, res) => {
     const link = `${process.env.SERVER_URL || "http://localhost:5000"}/api/auth/verify/${token}`;
     console.log("Verification link:", link); // 🔥 DEBUG
 
-    // Send verification email
-    await sendEmail(email, "Verify your email", `
+    // ✅ Send response FIRST
+    res.json({ message: "Verification email sent" });
+
+    // 🔄 Send verification email in background (non-blocking)
+    sendEmail(email, "Verify your email", `
       <h3>Email Verification</h3>
       <a href="${link}">Click here to verify your email</a>
-    `);
+    `).catch(err => {
+      console.error("Failed to send verification email:", err);
+      // Optionally: log to database or external service
+    });
 
-    res.json({ message: "Verification email sent" });
   } catch (err) {
     console.error("Signup error:", err);
     res.status(500).json({ message: "Server error" });
