@@ -50,7 +50,7 @@ const Signup = () => {
     try {
       const res = await axios.post(`${API_BASE_URL}/signup`, form, {
         headers: { "Content-Type": "application/json" },
-        timeout: 10000, // 10 second timeout
+        timeout: 30000, // 30 second timeout for cold start
       });
 
       alert(res.data.message || "Verification email sent! Check your inbox.");
@@ -81,7 +81,7 @@ const Signup = () => {
         },
         {
           headers: { "Content-Type": "application/json" },
-          timeout: 15000, // 15 second timeout for Google
+          timeout: 30000, // 30 second timeout for cold start
         }
       );
 
